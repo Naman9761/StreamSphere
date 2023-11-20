@@ -312,15 +312,23 @@ const Meeting = ({isValidMeeting,query,endMeeting,user,profile,clearMessages,upd
        setIsMic(!isMic);
     }
 
-    const videoHandler = ()=>{
-        const enabled = myVideoStream.getVideoTracks()[0].enabled;
-        if (enabled) {
-            myVideoStream.getVideoTracks()[0].enabled = false;
-        } else {
-            myVideoStream.getVideoTracks()[0].enabled = true;
+    const videoHandler = () => {
+        // Check if myVideoStream is defined
+        if (myVideoStream) {
+            const videoTracks = myVideoStream.getVideoTracks();
+    
+            // Check if videoTracks is not an empty array
+            if (videoTracks.length > 0) {
+                const enabled = videoTracks[0].enabled;
+    
+                // Toggle the video track's enabled state
+                videoTracks[0].enabled = !enabled;
+    
+                // Update the state variable
+                setIsVideo(!isVideo);
+            }
         }
-        setIsVideo(!isVideo);
-    }
+    };
 
     const incomingAudioHandler = ()=>{
         if(typeof window!="undefined"){
